@@ -1,10 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Display from "./components/Display";
 import Button from "./components/Button";
+import History from "./components/History";
+
+import { AiOutlineHistory } from "react-icons/ai";
 
 const App = () => {
   const [input, setInput] = useState("");
+  const [history, setHistory] = useState([]);
+  const [toggleHistory, setToggleHistory] = useState(false);
+
+  useEffect(() => {
+    const historyItemsFromStorage = JSON.parse(localStorage.getItem("history"));
+    historyItemsFromStorage && setHistory(historyItemsFromStorage);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("history", JSON.stringify(history));
+  }, [history]);
 
   const btns = [
     ["0", "1", "2", "+"],
@@ -27,6 +41,9 @@ const App = () => {
       const result = eval(input);
 
       setInput(result.toString());
+
+      const histroyResult = `${input} = ${result.toString()}`;
+      setHistory((prevHistory) => [...prevHistory, histroyResult]);
     } catch (e) {
       alert(e.message);
     }
@@ -40,6 +57,15 @@ const App = () => {
   const resetInputHandler = () => {
     setInput("");
   };
+
+  const toggleHistoryHandler = () => {
+    setToggleHistory((prevState) => !prevState);
+  };
+
+  const clearHistoryHandler = () => {
+    setHistory([]);
+    localStorage.removeItem("history");
+  };
   return (
     <main className="container">
       <Display
@@ -47,6 +73,12 @@ const App = () => {
         onChange={onInputChangeHandler}
         onSubmit={onSubmitFormHandler}
       />
+      <div className="actions">
+        <button onClick={toggleHistoryHandler}>
+          <AiOutlineHistory style={{ fontSize: "20px", fontWeight: "bold" }} />
+        </button>
+      </div>
+
       <div className="buttons">
         {btns.map((rows) =>
           rows.map((btn) => (
@@ -71,6 +103,9 @@ const App = () => {
           ))
         )}
       </div>
+      {toggleHistory && (
+        <History history={history} onClick={clearHistoryHandler} />
+      )}
     </main>
   );
 };

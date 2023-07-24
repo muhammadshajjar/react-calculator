@@ -19,3 +19,13 @@
   flex-wrap: wrap;
   gap: 10px;
 }
+
+.actions {
+  margin-bottom: 10px;
+}
+
+.actions button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
