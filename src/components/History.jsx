@@ -1,17 +1,22 @@
 import React from "react";
 import "./History.css";
 
+import { v4 as uuidv4 } from "uuid";
+
 const History = ({ history, onClick }) => {
   return (
     <div className="history">
       <h2>History</h2>
-      {history.length === 0 && <p>No History!</p>}
+      {history.length === 0 ? (
+        <p>No History!</p>
+      ) : (
+        <button onClick={onClick}>Clear All</button>
+      )}
       <ul>
         {history.map((item) => (
-          <li key={Math.random().toString()}>{item}</li>
+          <li key={uuidv4()}>{item}</li>
         ))}
       </ul>
-      {history.length > 0 && <button onClick={onClick}>Clear All</button>}
     </div>
   );
 };
