@@ -3,6 +3,7 @@ import "./App.css";
 import Display from "./components/Display";
 import Button from "./components/Button";
 import History from "./components/History";
+import { v4 as uuidv4 } from "uuid";
 
 import { AiOutlineHistory } from "react-icons/ai";
 
@@ -27,7 +28,7 @@ const App = () => {
     ["C", "0", "=", "/"],
   ];
 
-  const onInputChangeHandler = (e) => {
+  const inputChangeHandler = (e) => {
     setInput(e.target.value);
   };
 
@@ -49,7 +50,7 @@ const App = () => {
     }
   };
 
-  const onSubmitFormHandler = (e) => {
+  const submitFormHandler = (e) => {
     e.preventDefault();
     evaluateResultHandler();
   };
@@ -70,12 +71,12 @@ const App = () => {
     <main className="container">
       <Display
         input={input}
-        onChange={onInputChangeHandler}
-        onSubmit={onSubmitFormHandler}
+        onChange={inputChangeHandler}
+        onSubmit={submitFormHandler}
       />
       <div className="actions">
         <button onClick={toggleHistoryHandler}>
-          <AiOutlineHistory style={{ fontSize: "20px", fontWeight: "bold" }} />
+          <AiOutlineHistory className="icons" />
         </button>
       </div>
 
@@ -83,15 +84,15 @@ const App = () => {
         {btns.map((rows) =>
           rows.map((btn) => (
             <Button
-              key={Math.random().toString()}
-              onClick={
+              key={uuidv4()}
+              onPress={
                 btn === "="
                   ? evaluateResultHandler
                   : btn === "C"
                   ? resetInputHandler
                   : buttonClickHandler
               }
-              label={btn}
+              value={btn}
               style={
                 btn === "C"
                   ? { backgroundColor: "#ff9ea8" }

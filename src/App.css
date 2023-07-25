@@ -8,6 +8,7 @@
 
 .container {
   max-width: 360px;
+  min-width: 364px;
   width: 100%;
   padding: 10px;
   background-color: var(--calculator-bg);
@@ -28,4 +29,9 @@
   background: transparent;
   border: none;
   cursor: pointer;
+}
+
+.actions .icons {
+  font-size: 20px;
+  font-weight: "bold";
 }
